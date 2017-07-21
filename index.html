@@ -3,32 +3,51 @@
   <head>
     <meta charset="utf-8">
     <title>Raster Layer Demo</title>
+    <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css">
     <link rel="stylesheet" href="styles/foundation.min.css">
     <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
     <div class="grid-x">
-      <div class="medium-4 cell">
-        <form action="#" class="dashboard-form">
-          <div class="row">
-            <label for="layerSelector">Layer</label>
-            <select id="layerSelector"></select>
+      <div class="small-12 medium-4 cell">
+        <div class="l-sidebar">
+          <form action="#" class="dashboard-form">
+            <div class="form-row">
+              <label for="locationSelector">Locations</label>
+              <select id="locationSelector">
+                <option value="136" selected>Narok</option>
+                <option value="779">Kenya</option>
+                <option value="759">Masai Mara</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="regionSelector">Regions</label>
+              <select id="regionSelector">
+                <option value="pa" selected>Protected areas</option>
+                <option value="county">Counties</option>
+                <option value="country">Country</option>
+                <option value="waterb">Water basins</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label for="layerSelector">Layer</label>
+              <select id="layerSelector"></select>
+            </div>
+            <div class="grid-x">
+              <label for="cartoCSSTextarea">Layer</label>
+              <textarea id="cartoCSSTextarea"></textarea>
+            </div>
+            <button class="button" id="applyBtn" type="button">Apply</button>
+          </form>
           </div>
-          <div class="grid-x">
-            <label for="cartoCSSTextarea">Layer</label>
-            <textarea id="cartoCSSTextarea"></textarea>
-          </div>
-          <button class="button" id="applyBtn" type="button">Apply</button>
-        </form>
       </div>
-      <div class="medium-8 cell">
+      <div class="small-12 medium-8 cell">
         <div class="l-map">
           <div id="map"></div>
         </div>
       </div>
     </div>
-    
     <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
     <script src="scripts/main.js"></script>
   </body>
