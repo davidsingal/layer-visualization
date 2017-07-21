@@ -73,12 +73,11 @@ function startVis() {
     cartodb.createLayer(map, {
       'user_name': 'simbiotica',
       type: 'cartodb',
-      sql_api_template: 'https://{user}.carto.com',
-      maps_api_template: 'https://{user}.carto.com',
       sublayers: [config],
       extra_params: {
         map_key: ACCESS_TOKEN
-      }
+      }, 
+      https: true
     }, {
       https: true
     }).addTo(map, 2).done(function(cartoLayer) {
