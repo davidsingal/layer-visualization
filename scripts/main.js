@@ -77,7 +77,7 @@ function startVis() {
       extra_params: {
         map_key: ACCESS_TOKEN
       }
-    }).addTo(map, 2).done(function(cartoLayer) {
+    }, { https: true }).addTo(map, 2).done(function(cartoLayer) {
       layer = cartoLayer;
     });
   }
