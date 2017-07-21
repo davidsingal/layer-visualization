@@ -30,9 +30,7 @@ SELECT cartodb_id, all_wl_den, st_intersection(s.the_geom_webmercator, (select *
   }, {
     name: "Land cover",
     config: {
-      "sqlFn": (locationId) => `with geom as (select the_geom_webmercator from geometries where id = ${locationId})
-
-SELECT cartodb_id, aggr_wr, st_intersection(s.the_geom_webmercator, (select * from geom))  as  the_geom_webmercator FROM lc_kenya_2008_full_aggr2 s where st_intersects(s.the_geom_webmercator, (select * from geom)) `,
+      "sqlFn": (locationId) => `SELECT cartodb_id, aggr_wr,  the_geom_webmercator FROM lc_kenya_2008_full_aggr2 `,
       "cartocss": `#layer {
   polygon-fill: ramp([aggr_wr], (#5F4690, #1D6996, #38A6A5, #0f8554, #73AF48, #EDAD08, #E17C05, #CC503E, #94346e, #6F4070, #666666), ("FR-4-Very open trees (40-15% crown cover)", "RL-1-Open to closed herbaceous vegetation", "RL-7-Very open shrubs (40-15% crown cover)", "AG-1-Rainfed herbaceous crop", "FR-3-Open trees (65-40% crown cover)", "BA-Bare areas", "AG-1B-Scattered (in natural vegetation or other) Rainfed herbaceous crop (field density 20-40% of polygon area)", "FR-2-Closed trees", "RL-4-Sparse shrub", "RL-5-Open to closed herbaceous vegetation on temporarily flooded"), "=");
 } `,
