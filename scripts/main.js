@@ -1,9 +1,9 @@
 var data = [
   {
-    name: 'layer1',
+    name: 'Land use',
     config: {
-      "sql": "SELECT *, random()* 100000 as value_r FROM ke_water_basins",
-      "cartocss": "#layer {polygon-fill: ramp([aggr_wr], (#5F4690, #1D6996, #38A6A5, #0f8554, #73AF48, #EDAD08, #E17C05, #CC503E, #94346e, #6F4070, #666666), ('FR-4-Very open trees (40-15% crown cover)', 'RL-1-Open to closed herbaceous vegetation', 'RL-7-Very open shrubs (40-15% crown cover)', 'AG-1-Rainfed herbaceous crop', 'FR-3-Open trees (65-40% crown cover)', 'BA-Bare areas', 'AG-1B-Scattered (in natural vegetation or other) Rainfed herbaceous crop (field density 20-40% of polygon area)', 'FR-2-Closed trees', 'RL-4-Sparse shrub', 'RL-5-Open to closed herbaceous vegetation on temporarily flooded'), '='); } #layer::outline {line-width: 0; line-color: #FFF; line-opacity: 0.5; } ",
+      "sql": "SELECT * FROM lc_kenya_2008_full_aggr2",
+      "cartocss": `#layer {polygon-fill: ramp([aggr_wr], (#5F4690, #1D6996, #38A6A5, #0f8554, #73AF48, #EDAD08, #E17C05, #CC503E, #94346e, #6F4070, #666666), ("FR-4-Very open trees (40-15% crown cover)", "RL-1-Open to closed herbaceous vegetation", "RL-7-Very open shrubs (40-15% crown cover)", "AG-1-Rainfed herbaceous crop", "FR-3-Open trees (65-40% crown cover)", "BA-Bare areas", "AG-1B-Scattered (in natural vegetation or other) Rainfed herbaceous crop (field density 20-40% of polygon area)", "FR-2-Closed trees", "RL-4-Sparse shrub", "RL-5-Open to closed herbaceous vegetation on temporarily flooded"), "="); } #layer::outline {line-width: 0; line-color: #FFF; line-opacity: 0.5; }`,
       "cartocss_version": "3.0.12"
     }
   }
@@ -21,7 +21,6 @@ function startVis() {
 
   // Layer
   function renderLayer(config) {
-    console.log(config)
     if (layer) {
       map.removeLayer(layer);
     }
@@ -34,6 +33,7 @@ function startVis() {
       }
     }).addTo(map, 2).done(function(cartoLayer) {
       layer = cartoLayer;
+      cartoCSSTextarea.value = config.cartocss;
     });
   }
 
@@ -49,6 +49,8 @@ function startVis() {
 
   // Creating select
   var selectElement = document.getElementById('layerSelector');
+  var cartoCSSTextarea = document.getElementById('cartoCSSTextarea');
+  var applyBtn = document.getElementById('applyBtn');
 
   for (var index = 0; index < data.length; index++) {
     var option = document.createElement('option');
@@ -66,7 +68,17 @@ function startVis() {
     }
   });
 
+  // First layer
   renderLayer(data[0].config);
+  cartoCSSTextarea.value = data[0].config.cartocss;
+
+  // Modifying cartocss
+  applyBtn.addEventListener('click', function(e) {
+    var value = cartoCSSTextarea.value;
+    var layerData = _.extend({}, _.findWhere(data, { name: selectElement.value }));
+    layerData.config.cartocss = value;
+    renderLayer(layerData.config);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', startVis);
