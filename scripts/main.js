@@ -2,7 +2,11 @@ var data = [
   {
     name: "Livestock",
     config: {
-      "sqlFn": (locationId) => `with geom as (select the_geom_webmercator from geometries where id = ${locationId})
+      "sqlFn": (locationId) => {
+        if (locationId === "779" || locationId === 779) {
+          return 'select * from {tablename}';
+        }
+        return `with geom as (select the_geom_webmercator from geometries where id = ${locationId})
 SELECT cartodb_id, lvstck_den, st_intersection(s.the_geom_webmercator, (select * from geom))  as  the_geom_webmercator FROM kenya_livestock_1990 s where st_intersects(s.the_geom_webmercator, (select * from geom)) `,
       "cartocss": `#layer {
           polygon-fill: ramp([lvstck_den], (#c9ff8a, #82d091, #FF8800, #19696f, #FF6161), jenks);
@@ -10,13 +14,18 @@ SELECT cartodb_id, lvstck_den, st_intersection(s.the_geom_webmercator, (select *
           //line-width: 0.5;
           //line-color: ramp([lvstck_den], (#ff6161, #82d091, #4c9b82, #19696f, #074050), jenks);
           //line-opacity: 1;
-        }`,
+        }`
+      },
       "cartocss_version": "3.0.12"
     }
   }, {
     name: "Wild life",
     config: {
-      "sqlFn": (locationId) => `with geom as (select the_geom_webmercator from geometries where id = ${locationId})
+      "sqlFn": (locationId) => {
+        if (locationId === "779" || locationId === 779) {
+          return 'select * from {tablename}';
+        }
+        return `with geom as (select the_geom_webmercator from geometries where id = ${locationId})
 
 SELECT cartodb_id, all_wl_den, st_intersection(s.the_geom_webmercator, (select * from geom))  as  the_geom_webmercator FROM ke_wildlife_1990 s where st_intersects(s.the_geom_webmercator, (select * from geom))`,
       "cartocss": `#layer {
@@ -24,7 +33,8 @@ SELECT cartodb_id, all_wl_den, st_intersection(s.the_geom_webmercator, (select *
   line-width: 0.5;
   line-color: ramp([all_wl_den], (#fcde9c, #f58670, #e34f6f, #d72d7c, #7c1d6f), jenks);
   line-opacity: 1;
-}`,
+}`;
+      },
       "cartocss_version": "3.0.12"
     }
   }, {
@@ -74,7 +84,7 @@ function startVis() {
       sublayers: [config],
       extra_params: {
         map_key: ACCESS_TOKEN
-      }, 
+      },
       https: true
     }, {
       https: true
