@@ -2,45 +2,45 @@ var data = [
   {
     name: "Livestock",
     config: {
-      "sqlFn": (locationId) => {
+      sqlFn: (locationId) => {
         if (locationId === "779" || locationId === 779) {
           return 'select * from kenya_livestock_1990';
         }
         return `with geom as (select the_geom_webmercator from geometries where id = ${locationId})
-SELECT cartodb_id, lvstck_den, st_intersection(s.the_geom_webmercator, (select * from geom))  as  the_geom_webmercator FROM kenya_livestock_1990 s where st_intersects(s.the_geom_webmercator, (select * from geom)) `,
+SELECT cartodb_id, lvstck_den, st_intersection(s.the_geom_webmercator, (select * from geom))  as  the_geom_webmercator FROM kenya_livestock_1990 s where st_intersects(s.the_geom_webmercator, (select * from geom)) `;
+      },
       "cartocss": `#layer {
           polygon-fill: ramp([lvstck_den], (#c9ff8a, #82d091, #FF8800, #19696f, #FF6161), jenks);
           polygon-opacity: 1;
           //line-width: 0.5;
           //line-color: ramp([lvstck_den], (#ff6161, #82d091, #4c9b82, #19696f, #074050), jenks);
           //line-opacity: 1;
-        }`
-      },
+        }`,
       "cartocss_version": "3.0.12"
     }
   }, {
     name: "Wild life",
     config: {
-      "sqlFn": (locationId) => {
+      sqlFn: (locationId) => {
         if (locationId === "779" || locationId === 779) {
           return 'select * from ke_wildlife_1990';
         }
         return `with geom as (select the_geom_webmercator from geometries where id = ${locationId})
 
-SELECT cartodb_id, all_wl_den, st_intersection(s.the_geom_webmercator, (select * from geom))  as  the_geom_webmercator FROM ke_wildlife_1990 s where st_intersects(s.the_geom_webmercator, (select * from geom))`,
+SELECT cartodb_id, all_wl_den, st_intersection(s.the_geom_webmercator, (select * from geom))  as  the_geom_webmercator FROM ke_wildlife_1990 s where st_intersects(s.the_geom_webmercator, (select * from geom))`;
+      },
       "cartocss": `#layer {
   polygon-fill: ramp([all_wl_den], (#fcde9c, #f58670, #e34f6f, #d72d7c, #7c1d6f), jenks);
   line-width: 0.5;
   line-color: ramp([all_wl_den], (#fcde9c, #f58670, #e34f6f, #d72d7c, #7c1d6f), jenks);
   line-opacity: 1;
-}`;
+}`
       },
       "cartocss_version": "3.0.12"
-    }
   }, {
     name: "Land cover",
     config: {
-      "sqlFn": (locationId) => `SELECT cartodb_id, aggr_wr,  the_geom_webmercator FROM lc_kenya_2008_full_aggr2 `,
+      sqlFn: (locationId) => `SELECT cartodb_id, aggr_wr,  the_geom_webmercator FROM lc_kenya_2008_full_aggr2 `,
       "cartocss": `#layer {
   polygon-fill: ramp([aggr_wr], (#5F4690, #1D6996, #38A6A5, #0f8554, #73AF48, #EDAD08, #E17C05, #CC503E, #94346e, #6F4070, #666666), ("FR-4-Very open trees (40-15% crown cover)", "RL-1-Open to closed herbaceous vegetation", "RL-7-Very open shrubs (40-15% crown cover)", "AG-1-Rainfed herbaceous crop", "FR-3-Open trees (65-40% crown cover)", "BA-Bare areas", "AG-1B-Scattered (in natural vegetation or other) Rainfed herbaceous crop (field density 20-40% of polygon area)", "FR-2-Closed trees", "RL-4-Sparse shrub", "RL-5-Open to closed herbaceous vegetation on temporarily flooded"), "=");
 } `,
