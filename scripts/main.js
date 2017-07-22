@@ -4,7 +4,7 @@ var data = [
     config: {
       "sqlFn": (locationId) => {
         if (locationId === "779" || locationId === 779) {
-          return 'select * from {tablename}';
+          return 'select * from kenya_livestock_1990';
         }
         return `with geom as (select the_geom_webmercator from geometries where id = ${locationId})
 SELECT cartodb_id, lvstck_den, st_intersection(s.the_geom_webmercator, (select * from geom))  as  the_geom_webmercator FROM kenya_livestock_1990 s where st_intersects(s.the_geom_webmercator, (select * from geom)) `,
@@ -23,7 +23,7 @@ SELECT cartodb_id, lvstck_den, st_intersection(s.the_geom_webmercator, (select *
     config: {
       "sqlFn": (locationId) => {
         if (locationId === "779" || locationId === 779) {
-          return 'select * from {tablename}';
+          return 'select * from ke_wildlife_1990';
         }
         return `with geom as (select the_geom_webmercator from geometries where id = ${locationId})
 
